@@ -14,6 +14,10 @@ const socketController = async(socket = new Socket(), io)=>{
     chatMensajes.agregarUsuario(usuario);
     io.emit("usuarios-activos", chatMensajes.usuariosArr);
     socket.emit("recibir-mensajes", chatMensajes.ultimos10)
+
+    //conectar a sala especial
+    socket.join(usuario.id); // sala global , sala por socket id y esta sala por id del usuario
+
     
     //limpiar cuando alguien se deconecta
     socket.on("disconnect", ()=>{
@@ -22,8 +26,13 @@ const socketController = async(socket = new Socket(), io)=>{
    })
    socket.on("enviar-mensaje", ({uid, mensaje})=>{
 
+    if(uid){
+        socket.to(uid).emit("mensaje-privado",{de: usuario.nombre, mensaje});
+    }else{
+
     chatMensajes.enviarMensaje(usuario.id, usuario.nombre, mensaje)
     io.emit("recibir-mensajes", chatMensajes.ultimos10);
+    }
 })
     
 }

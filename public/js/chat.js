@@ -52,11 +52,9 @@ const conectarSocket = async()=>{
     socket.on("disconnect", ()=>{
         console.log("Sockets Offline")
     })
-    socket.on("recibir-mensajes",dibujarMensajes)
+    socket.on("recibir-mensajes",dibujarMensajes);
     socket.on("usuarios-activos",dibujarUsuarios);
-    socket.on("mensaje-privado",()=>{
-     
-    });
+    socket.on("mensaje-privado",dibujarMensajesPrivados);
 
 }
 
@@ -107,7 +105,19 @@ const dibujarMensajes = (mensajes=[]) => {
 
     ulMensajes.innerHTML = mensajesHtml;
 }
+const dibujarMensajesPrivados = ({de, mensaje}) => { //son temporales cuando alguien mas escribe en el global se borra
 
+    let mensajesHtml=`
+    <li>
+        <p>
+            <span class="text-secondary">Privado de ${de}</span>
+            <span>${mensaje}</span>
+        </p>
+    </li>
+`;
+
+    ulMensajes.innerHTML = mensajesHtml;
+}
 
 const main=async()=>{
 
