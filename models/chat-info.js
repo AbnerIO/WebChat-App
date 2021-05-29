@@ -1,7 +1,7 @@
 class Mensaje{
     constructor(uid, nombre, mensaje){
         this.uid=uid,
-        this.mensaje=mensaje
+        this.nombre=nombre
         this.mensaje=mensaje
     }
 }
